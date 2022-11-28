@@ -18,6 +18,9 @@
       "@school-nx-monorepo/api-interfaces": [
         "libs/api-interfaces/src/index.ts"
       ],
+      "@school-nx-monorepo/shared/database": [
+        "libs/shared/database/src/index.ts"
+      ],
       "@school-nx-monorepo/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ]

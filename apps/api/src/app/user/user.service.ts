@@ -1,57 +1,43 @@
 import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { User } from "@school-nx-monorepo/shared/interfaces";
-import { Model } from "mongoose";
-import { CreateUserDTO } from "./dto/create-user.dto";
+import { User } from "@school-nx-monorepo/shared/database";
 import { UpdateUserDTO } from "./dto/update-user.dto";
+import { UserRespository } from "./user.repository";
+import { v4 as uuid } from 'uuid';
+import { hashPassword } from "../utils/bcrypt";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+    constructor(private readonly userRepository: UserRespository) { }
 
-    async insertUser(user: CreateUserDTO){
-        const newUser = new this.userModel({
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            access: user.access,
+    async createUser(name: string, email: string, password: string, access: string): Promise<User> {
+        password = hashPassword(password);
+        return this.userRepository.create({
+            id: new uuid(),
+            name,
+            email,
+            password,
+            access,
             lastLogin: Date.now()
         });
-
-        const result = await newUser.save();
-        return result as User;
     }
 
-    async getAllUsers() {
-        const users = await this.userModel.find().exec();
-        return users as User[];
+    async getUsers(): Promise<User[]> {
+        return this.userRepository.find({});
     }
 
-    async getOneUser(userId: string) {
-        const user = await this.userModel.findById(userId);
-        return user as User;
+    async getUserById(userId: string): Promise<User> {
+        return this.userRepository.findOne({ id: userId });
     }
 
-    async userExistWithEmail(email: string) {
-        const userWithMail = await this.userModel.findOne({email: email});
-        return userWithMail !== null;
+    async getUserByEmail(email: string): Promise<User> {
+        return this.userRepository.findOne({ email });
     }
 
-    async update(userId: string, infoToUpdate: UpdateUserDTO){
-        const userToUpdate = await this.getOneUser(userId);
-
-        Object.entries(infoToUpdate).forEach( ([key, value]) => {
-            if (key === 'id') return;
-            userToUpdate[key] = value;
-        });
-
-       userToUpdate.save();
-
-        return userToUpdate;
+    async updateUser(userId: string, infoToUpdate: UpdateUserDTO): Promise<User> {
+        return this.userRepository.findOneAndUpdate({ id: userId }, infoToUpdate);
     }
 
-    async delete(id: string){
-        const userToDelete = this.userModel.findByIdAndDelete(id);
-        return userToDelete;
+    async delete(userId: string): Promise<boolean> {
+        return this.userRepository.deleteMany({ id: userId });
     }
 }

@@ -16,7 +16,7 @@ export class UpdateUserDTO {
     @IsOptional()
     password: string;
 
-    //@IsNotEmpty({ message: 'access cannot be empty.' })
+    @IsNotEmpty({ message: 'access cannot be empty.' })
     @AccessIsCorrect({ message: 'access is invalid' })
     @IsOptional()
     access: string;

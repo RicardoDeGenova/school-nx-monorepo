@@ -13,7 +13,7 @@ export class CreateUserDTO {
     @MinLength(6, { message: 'password must have at least 6 characters.' })
     password: string;
 
-    //@IsNotEmpty({ message: 'access cannot be empty.' })
+    @IsNotEmpty({ message: 'access cannot be empty.' })
     @AccessIsCorrect({ message: 'access is invalid' })
     access: string;
 }
