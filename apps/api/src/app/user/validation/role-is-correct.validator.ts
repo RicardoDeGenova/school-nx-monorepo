@@ -2,7 +2,7 @@ import { registerDecorator, ValidationArguments,
     ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 
 @ValidatorConstraint({ async: true })
-export class AccessIsCorrectValidator implements ValidatorConstraintInterface {
+export class RoleIsCorrectValidator implements ValidatorConstraintInterface {
     
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
@@ -21,7 +21,7 @@ export const AccessIsCorrect = (validationOptions: ValidationOptions) => {
             propertyName: property,
             options: validationOptions,
             constraints: [],
-            validator: AccessIsCorrectValidator,
+            validator: RoleIsCorrectValidator,
         });
     };
 };

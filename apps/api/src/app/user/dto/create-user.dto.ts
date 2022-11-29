@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { AccessIsCorrect } from '../validation/access-is-correct.validator';
+import { AccessIsCorrect as RoleIsCorrect } from '../validation/role-is-correct.validator';
 import { EmailIsUnique } from '../validation/email-is-unique.validator';
 
 export class CreateUserDTO {
@@ -13,7 +13,7 @@ export class CreateUserDTO {
     @MinLength(6, { message: 'password must have at least 6 characters.' })
     password: string;
 
-    @IsNotEmpty({ message: 'access cannot be empty.' })
-    @AccessIsCorrect({ message: 'access is invalid' })
-    access: string;
+    @IsNotEmpty({ message: 'role cannot be empty.' })
+    @RoleIsCorrect({ message: 'role is invalid' })
+    role: string;
 }

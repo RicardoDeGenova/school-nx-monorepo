@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
-import { AccessIsCorrect } from '../validation/access-is-correct.validator';
+import { AccessIsCorrect } from '../validation/role-is-correct.validator';
 import { EmailIsUnique } from '../validation/email-is-unique.validator';
 
 export class UpdateUserDTO {

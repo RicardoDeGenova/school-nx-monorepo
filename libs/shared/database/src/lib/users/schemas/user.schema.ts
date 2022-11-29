@@ -17,7 +17,7 @@ export class User{
     password: string;
     
     @Prop()
-    access: 'teacher' | 'admin';
+    role: 'teacher' | 'admin';
     
     @Prop()
     lastLogin: Date;
