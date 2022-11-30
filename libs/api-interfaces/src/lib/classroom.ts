@@ -1,4 +1,4 @@
-import { Subject } from "../subject/subject.entity";
+import { Subject } from "./subject";
 
 export interface Classroom {
     type: 'traditional' | 'experimental',

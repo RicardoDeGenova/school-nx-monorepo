@@ -10,13 +10,13 @@ export abstract class EntityRepository<T extends Document>{
         }).exec();
     }
 
-    async find(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {
+    async findAll(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {
         return await this.entityModel.find(entityFilterQuery);
     }
 
     async create(createEntityData: unknown): Promise<T> {
         const newEntity = new this.entityModel(createEntityData);
-        return newEntity.save();
+        return await newEntity.save();
     }
 
     async findOneAndUpdate(entityFilterQuery: FilterQuery<T>,

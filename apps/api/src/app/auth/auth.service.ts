@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@school-nx-monorepo/shared/database';
-import { validatePassword } from '../utils/bcrypt';
 import { jwtSecret } from './constants';
+import { User } from '../user/schemas/user.schema';
+import { UserResponse } from '../user/response';
 
 @Injectable()
 export class AuthService {
@@ -11,13 +11,12 @@ export class AuthService {
         private readonly userService: UserService,
         private readonly jwtService: JwtService) { }
 
-    async validate(email: string, password: string): Promise<User | null> {
-        const user = await this.userService.getUserByEmail(email);
+    async validate(email: string, password: string): Promise<UserResponse | null> {
+        const user = await this.userService.validateWithEmail(email, password);
         
         if (!user) return null;
 
-        const passwordIsValid = validatePassword(password, user.password);
-        return passwordIsValid ? user : null;
+        return user;
     }
 
     login(user: User): { access_token: string } {
@@ -29,7 +28,7 @@ export class AuthService {
         return { access_token: this.jwtService.sign(payload), }
     }
 
-    async verify(token: string): Promise<User> {
+    async verify(token: string): Promise<UserResponse> {
         const decoded = this.jwtService.verify(token, { secret: jwtSecret });
 
         const user = await this.userService.getUserByEmail(decoded.email);

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { User, UserSchema } from "@school-nx-monorepo/shared/database";
+import { User, UserSchema } from './schemas/user.schema';
 import { UserController } from "./user.controller";
 import { UserRespository } from "./user.repository";
 import { UserService } from "./user.service";
