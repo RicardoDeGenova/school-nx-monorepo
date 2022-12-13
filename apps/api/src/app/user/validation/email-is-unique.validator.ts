@@ -10,7 +10,7 @@ export class EmailIsUniqueValidator implements ValidatorConstraintInterface{
     
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async validate(email: string, validationArguments?: ValidationArguments): Promise<boolean> {
-        const userWithEmail = await this.userService.getUserByEmail(email);
+        const userWithEmail = await this.userService.findByEmail(email);
 
         return !userWithEmail;
     }

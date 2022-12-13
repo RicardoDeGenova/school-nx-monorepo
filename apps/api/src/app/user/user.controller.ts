@@ -15,20 +15,20 @@ export class UserController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     async getAllUsers(): Promise<UserResponse[]> {
-        return await this.userService.getUsers();
+        return await this.userService.findAll();
     }
 
     @Get(':userId')
     @UseGuards(JwtAuthGuard, RolesGuard)
     async getUser(@Param('userId') userId: Pick<UserRequest, 'id'>): Promise<UserResponse> {
-        return await this.userService.getUserById(userId.id);
+        return await this.userService.findById(userId.id);
     }
 
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     async createUser(@Body() createUserDTO: CreateUserRequest): Promise<UserResponse> {
-        return await this.userService.createUser(
+        return await this.userService.create(
             createUserDTO.name,
             createUserDTO.email,
             createUserDTO.password,
@@ -41,6 +41,6 @@ export class UserController {
     async updateUser(
         @Param('userId') userId: string,
         @Body() updateUserDTO: UpdateUserRequest): Promise<UserResponse> {
-        return this.userService.updateUser(userId, updateUserDTO);
+        return this.userService.update(userId, updateUserDTO);
     }
 }

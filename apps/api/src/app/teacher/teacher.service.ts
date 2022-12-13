@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTeacherDto } from './dto/create-teacher.dto';
-import { UpdateTeacherDto } from './dto/update-teacher.dto';
+import { Classroom, Subject } from '@school-nx-monorepo/api-interfaces';
+import { TeacherRequest, UpdateTeacherRequest } from './request';
+import { TeacherResponse } from './response';
+import { TeacherRepository } from './teacher.repository';
 
 @Injectable()
 export class TeacherService {
-  create(createTeacherDto: CreateTeacherDto) {
-    return 'This action adds a new teacher';
+  constructor(private readonly repository: TeacherRepository) { }
+  async create(classrooms: Classroom[], subjects: Subject[], isCordinator: boolean): Promise<TeacherResponse> {
+    const teacher = await this.repository.create({
+      classrooms,
+      subjects,
+      isCordinator
+    });
+    return new TeacherResponse(teacher);
   }
 
-  findAll() {
-    return `This action returns all teacher`;
+  async findAll(): Promise<TeacherResponse[]> {
+    const teachers = await this.repository.findAll({}) as TeacherResponse[];
+
+    return teachers.map((teacher) => new TeacherResponse(teacher));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} teacher`;
+  async findById(teacherId: string): Promise<TeacherResponse | null> {
+    const teacher = await this.repository.findOne({ id: teacherId });
+    return (teacher) ? new TeacherResponse(teacher) : null;
   }
 
-  update(id: number, updateTeacherDto: UpdateTeacherDto) {
-    return `This action updates a #${id} teacher`;
+  async update(teacherId: string, infoToUpdate: UpdateTeacherRequest): Promise<TeacherResponse> {
+    const teacher = await this.repository.findOneAndUpdate({ id: teacherId }, infoToUpdate);
+    return new TeacherResponse(teacher);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} teacher`;
+  async remove(teacherId: string): Promise<boolean> {
+    return await this.repository.deleteMany({id: teacherId});
   }
 }

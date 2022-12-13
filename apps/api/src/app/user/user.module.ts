@@ -8,7 +8,7 @@ import { RoleIsCorrectValidator } from "./validation/role-is-correct.validator";
 import { EmailIsUniqueValidator } from "./validation/email-is-unique.validator";
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+    imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema,}])
     ],
     controllers: [UserController],
     providers: [

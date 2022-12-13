@@ -31,7 +31,7 @@ export class AuthService {
     async verify(token: string): Promise<UserResponse> {
         const decoded = this.jwtService.verify(token, { secret: jwtSecret });
 
-        const user = await this.userService.getUserByEmail(decoded.email);
+        const user = await this.userService.findByEmail(decoded.email);
 
         if (!user) {
             throw new Error('Unable to get user from token.');

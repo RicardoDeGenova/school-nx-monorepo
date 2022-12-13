@@ -9,7 +9,7 @@ import { UserResponse as UserResponse } from "./response";
 export class UserService {
     constructor(private readonly userRepository: UserRespository) { }
 
-    async createUser(name: string, email: string, password: string, role: string): Promise<UserResponse> {
+    async create(name: string, email: string, password: string, role: string): Promise<UserResponse> {
         password = hashPassword(password);
         const user = await this.userRepository.create({
             id: new uuid(),
@@ -23,19 +23,19 @@ export class UserService {
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
-    async getUsers(): Promise<UserResponse[]> {
+    async findAll(): Promise<UserResponse[]> {
         const users = await this.userRepository.findAll({}) as UserResponse[];
 
         return users.map((user) => new UserResponse(user));
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
-    async getUserById(userId: string): Promise<UserResponse> {
+    async findById(userId: string): Promise<UserResponse | null> {
         const user = await this.userRepository.findOne({ id: userId });
-        return new UserResponse(user);
+        return (user) ? new UserResponse(user) : null;
     }
 
-    async getUserByEmail(email: string): Promise<UserResponse | null> {
+    async findByEmail(email: string): Promise<UserResponse | null> {
         const user = await this.userRepository.findOne({ email });
         return (user) ? new UserResponse(user) : null;
     }
@@ -48,12 +48,12 @@ export class UserService {
         return (passwordIsValid) ? new UserResponse(user) : null;
     }
 
-    async updateUser(userId: string, infoToUpdate: UpdateUserRequest): Promise<UserResponse> {
+    async update(userId: string, infoToUpdate: UpdateUserRequest): Promise<UserResponse> {
         const updatedUser = await this.userRepository.findOneAndUpdate({ id: userId }, infoToUpdate);
         return new UserResponse(updatedUser);
     }
 
-    async delete(userId: string): Promise<boolean> {
+    async remove(userId: string): Promise<boolean> {
         return await this.userRepository.deleteMany({ id: userId });
     }
 }
