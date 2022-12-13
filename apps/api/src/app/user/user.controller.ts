@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateUserRequest, UpdateUserRequest } from './request';
 import { UserService } from './user.service';
-import { adminRole } from '../app.constants';
 import { Roles } from '../auth/roles/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -14,18 +13,20 @@ export class UserController {
 
     @Get()
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(adminRole)
+    @Roles('admin')
     async getAllUsers(): Promise<UserResponse[]> {
         return await this.userService.getUsers();
     }
 
     @Get(':userId')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     async getUser(@Param('userId') userId: Pick<UserRequest, 'id'>): Promise<UserResponse> {
         return await this.userService.getUserById(userId.id);
     }
 
     @Post()
-    @Roles(adminRole)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     async createUser(@Body() createUserDTO: CreateUserRequest): Promise<UserResponse> {
         return await this.userService.createUser(
             createUserDTO.name,
@@ -34,9 +35,9 @@ export class UserController {
             createUserDTO.role);
     }
 
-
     @Patch(':userId')
-    @Roles(adminRole)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     async updateUser(
         @Param('userId') userId: string,
         @Body() updateUserDTO: UpdateUserRequest): Promise<UserResponse> {

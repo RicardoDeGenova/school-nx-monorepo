@@ -11,7 +11,7 @@ export class UserService {
 
     async createUser(name: string, email: string, password: string, role: string): Promise<UserResponse> {
         password = hashPassword(password);
-        return this.userRepository.create({
+        const user = await this.userRepository.create({
             id: new uuid(),
             name,
             email,
@@ -19,6 +19,7 @@ export class UserService {
             role,
             lastLogin: Date.now()
         });
+        return new UserResponse(user);
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
@@ -34,14 +35,13 @@ export class UserService {
         return new UserResponse(user);
     }
 
-    async getUserByEmail(email: string): Promise<UserResponse> {
+    async getUserByEmail(email: string): Promise<UserResponse | null> {
         const user = await this.userRepository.findOne({ email });
-        return new UserResponse(user);
+        return (user) ? new UserResponse(user) : null;
     }
 
     async validateWithEmail(email: string, password: string): Promise<UserResponse | null> {  
         const user = await this.userRepository.findOne({ email });
-        
         if (!user) return null;
 
         const passwordIsValid = validatePassword(password, user.password);

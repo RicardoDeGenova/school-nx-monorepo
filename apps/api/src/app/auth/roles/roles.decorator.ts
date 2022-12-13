@@ -1,4 +1,4 @@
 import { SetMetadata } from '@nestjs/common';
-import { roleName } from '../../app.constants';
+import { Role } from '@school-nx-monorepo/api-interfaces';
 
-export const Roles = (...roles: string[]) => SetMetadata(roleName, roles);
+export const Roles = (...roles: Role[]) => SetMetadata('roles', roles);

@@ -1,5 +1,6 @@
-import { User } from "@school-nx-monorepo/api-interfaces";
+import { Role, User } from "@school-nx-monorepo/api-interfaces";
 
-export interface UserRequest extends Pick<User, 'id'>{
+export interface UserRequest extends Pick<User, 'id' | 'role'>{
     id: string;
+    role: Role;
 }

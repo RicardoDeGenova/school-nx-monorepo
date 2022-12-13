@@ -7,7 +7,7 @@ import { jwtSecret } from "../constants";
 import { UserResponse } from "../../user/response";
 
 @Injectable()
-export class JwtStrategfy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly userService: UserService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
