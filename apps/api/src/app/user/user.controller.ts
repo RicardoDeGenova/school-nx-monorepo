@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, SetMetadata, UseGuards } from '@nestjs/common';
 import { CreateUserRequest, UpdateUserRequest } from './request';
 import { UserService } from './user.service';
-import { Roles } from '../auth/roles/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UserResponse } from './response';
 import { UserRequest } from './request/user';
+import {Admin} from './'
 
 @Controller('/users')
 export class UserController {
@@ -13,7 +13,7 @@ export class UserController {
 
     @Get()
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+    @SetMetadata('roles', 'admin')
     async getAllUsers(): Promise<UserResponse[]> {
         return await this.userService.findAll();
     }
@@ -26,7 +26,7 @@ export class UserController {
 
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+    @SetMetadata('roles', 'admin')
     async createUser(@Body() createUserDTO: CreateUserRequest): Promise<UserResponse> {
         return await this.userService.create(
             createUserDTO.name,
@@ -37,7 +37,7 @@ export class UserController {
 
     @Patch(':userId')
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+    @SetMetadata('roles', Admin)
     async updateUser(
         @Param('userId') userId: string,
         @Body() updateUserDTO: UpdateUserRequest): Promise<UserResponse> {

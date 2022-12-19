@@ -2,10 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Reflector } from "@nestjs/core";
 import { Role, User } from "@school-nx-monorepo/api-interfaces";
 import { Observable } from "rxjs";
-import { UserRequest } from "../../user/request/user";
-import { UserResponse } from "../../user/response";
 import { UserService } from "../../user/user.service";
-import { Roles } from "../roles/roles.decorator";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -13,7 +10,7 @@ export class RolesGuard implements CanActivate {
 
     canActivate(context: ExecutionContext):
         boolean | Promise<boolean> | Observable<boolean> {
-        const roles = this.reflector.get<Role[]>(Roles, context.getHandler());
+        const roles = this.reflector.get<Role[]>('roles', context.getHandler());
         const currentUser: User = context.switchToHttp().getRequest().user;
 
         if (!roles) return true;

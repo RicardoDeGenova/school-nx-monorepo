@@ -4,12 +4,13 @@ import { UserRespository } from "./user.repository";
 import { v4 as uuid } from 'uuid';
 import { hashPassword, validatePassword } from "../utils/bcrypt";
 import { UserResponse as UserResponse } from "./response";
+import { Role } from "@school-nx-monorepo/api-interfaces";
 
 @Injectable()
 export class UserService {
     constructor(private readonly userRepository: UserRespository) { }
 
-    async create(name: string, email: string, password: string, role: string): Promise<UserResponse> {
+    async create(name: string, email: string, password: string, role: Role): Promise<UserResponse> {
         password = hashPassword(password);
         const user = await this.userRepository.create({
             id: new uuid(),

@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { User as IUser } from '@school-nx-monorepo/api-interfaces';
+import { Role,Teacher, User as IUser } from '@school-nx-monorepo/api-interfaces';
+import { Interface } from 'readline';
+import { RoleIsCorrect } from '../validation/role-is-correct.validator';
 
 export type UserDocument = User & Document;
 
@@ -17,8 +19,8 @@ export class User implements IUser {
     @Prop()
     password: string;
 
-    @Prop()
-    role: 'teacher' | 'admin';
+    @Prop({type: Role, discriminators: () => [Teacher | 'admin']})
+    role: Role;
 
     @Prop()
     lastLogin: Date;
