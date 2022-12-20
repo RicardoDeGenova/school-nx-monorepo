@@ -1,16 +1,17 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
-import { Classroom, Subject, Teacher } from '@school-nx-monorepo/api-interfaces';
+import { Subject, Teacher } from '@school-nx-monorepo/api-interfaces';
+import { UpdateClassroomRequest } from './update-classroom';
 
 export class UpdateTeacherRequest implements Teacher {    
-    @IsNotEmpty({ message: 'name cannot be empty.' })
+    @IsNotEmpty({ message: 'classrooms cannot be empty.' })
     @IsOptional()
-    classrooms: Classroom[];
+    classrooms: UpdateClassroomRequest[];
 
-    @IsNotEmpty({ message: 'name cannot be empty.' })
+    @IsNotEmpty({ message: 'subjects cannot be empty.' })
     @IsOptional()
     subjects: Subject[];
     
-    @IsNotEmpty({ message: 'name cannot be empty.' })
+    @IsNotEmpty({ message: 'isCordinator cannot be empty.' })
     @IsOptional()
     isCordinator: boolean;
 }
