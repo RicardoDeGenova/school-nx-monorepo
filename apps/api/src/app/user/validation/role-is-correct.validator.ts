@@ -1,4 +1,4 @@
-import { Role, Teacher } from "@school-nx-monorepo/api-interfaces";
+import { Admin, Teacher } from "@school-nx-monorepo/api-interfaces";
 import { registerDecorator, ValidationArguments, 
     ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 
@@ -6,19 +6,9 @@ import { registerDecorator, ValidationArguments,
 export class RoleIsCorrectValidator implements ValidatorConstraintInterface {
     
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async validate(value: Role, validationArguments?: ValidationArguments): Promise<boolean> {
-        if (isTeacher(value) || isAdmin(value)) return true;
-        
-        return false;
+    async validate(isAdmin: boolean, validationArguments?: ValidationArguments): Promise<boolean> {
+        return isAdmin;
     }
-}
-
-function isTeacher(object: Role): object is Teacher {
-    return (object as Teacher) !== undefined;
-}
-
-function isAdmin(object: Role): object is 'admin' {
-    return (object === 'admin');
 }
 
 export const RoleIsCorrect = (validationOptions: ValidationOptions) => {
