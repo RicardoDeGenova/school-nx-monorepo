@@ -2,7 +2,7 @@ import { ClassTime } from "./classtime";
 import { Subject } from "./subject";
 
 export interface Classroom {
-  type: 'traditional' | 'experimental',
+  type: 'tradicional' | 'laboratório seco' | 'laboratório molhado',
   time: ClassTime,
   subject: Subject,
 }

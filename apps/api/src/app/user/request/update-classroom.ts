@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UpdateClassroomRequest implements Classroom {
     @IsNotEmpty({message: 'type cannot be empty.'})
-    type: 'traditional' | 'experimental';
+    type: 'tradicional' | 'laboratório seco' | 'laboratório molhado';
 
     @IsNotEmpty({message: 'time cannot be empty.'})
     time: ClassTime;
