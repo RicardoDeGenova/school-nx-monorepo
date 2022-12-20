@@ -2,6 +2,9 @@ import { Classroom, ClassTime, Subject } from '@school-nx-monorepo/api-interface
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateClassroomRequest implements Classroom {
+    @IsNotEmpty({message: 'name cannot be empty.'})
+    name: string;
+
     @IsNotEmpty({message: 'type cannot be empty.'})
     type: 'tradicional' | 'laboratório seco' | 'laboratório molhado';
 

@@ -16,7 +16,7 @@ import { EmailIsUniqueValidator } from "./validation/email-is-unique.validator";
         UserService,
         EmailIsUniqueValidator,
         RoleIsCorrectValidator],
-    exports: [UserService]
+    exports: [UserService, UserRespository]
 })
 export class UserModule {
 

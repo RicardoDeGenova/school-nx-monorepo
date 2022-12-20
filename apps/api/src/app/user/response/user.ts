@@ -11,6 +11,6 @@ export class UserResponse implements Omit<User, 'password' | 'id'> {
         this.name = partial.name;
         this.email = partial.email;
         this.isAdmin = partial.isAdmin;
-        this.teacher ??= new TeacherResponse(partial.teacher);
+        this.teacher = new TeacherResponse(partial.teacher);
     }
 }

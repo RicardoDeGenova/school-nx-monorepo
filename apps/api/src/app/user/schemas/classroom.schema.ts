@@ -6,6 +6,9 @@ import { Subject } from './subject.schema';
 @Schema()
 export class Classroom implements IClassroom{
     @Prop()
+    name: string;
+
+    @Prop()
     type: 'tradicional' | 'laboratório seco' | 'laboratório molhado';
 
     @Prop()

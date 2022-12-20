@@ -10,7 +10,8 @@ import { Teacher } from "@school-nx-monorepo/api-interfaces";
 export class UserService {
     constructor(private readonly userRepository: UserRespository) { }
 
-    async create(name: string, email: string, password: string, teacher: Teacher, isAdmin: boolean): Promise<UserResponse> {
+    async create(name: string, email: string, password: string, 
+        teacher: Teacher, isAdmin: boolean): Promise<UserResponse> {
         password = hashPassword(password);
         const user = await this.userRepository.create({
             id: new uuid(),
@@ -27,6 +28,13 @@ export class UserService {
     @UseInterceptors(ClassSerializerInterceptor)
     async findAll(): Promise<UserResponse[]> {
         const users = await this.userRepository.findAll({}) as UserResponse[];
+
+        return users.map((user) => new UserResponse(user));
+    }
+
+    @UseInterceptors(ClassSerializerInterceptor)
+    async findAllByFilter(entityFilterQuery: unknown): Promise<UserResponse[]> {
+        const users = await this.userRepository.findAll(entityFilterQuery) as UserResponse[];
 
         return users.map((user) => new UserResponse(user));
     }
