@@ -3,3 +3,4 @@ export * from './lib/subject';
 export * from './lib/teacher';
 export * from './lib/admin';
 export * from './lib/user';
+export * from './lib/classtime';
