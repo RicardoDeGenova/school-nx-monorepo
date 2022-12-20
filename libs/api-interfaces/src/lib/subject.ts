@@ -24,11 +24,9 @@ export type SubjectName =
     'Protagonismo juventil';
 
 export type SubjectGroup =
-    'Linguagens e suas tecnologias' |
-    'Matemática e suas tecnologias' |
-    'Ciências da natureza e suas tecnologias' |
-    'Ciências humanas e sociais aplicadas' |
-    'Itinerário formativo';
+    'Ciências da Natureza e Matemática' |
+    'Ciências de Linguagens e suas Tecnologias' |
+    'Ciências Humanas e suas Tecnologias';
 
 
 export interface Subject {
