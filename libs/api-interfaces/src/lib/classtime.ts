@@ -1,5 +1,5 @@
 export interface ClassTime{
     time: number,
-    day: 'Segunda' | 'Terça' | 'Quarta' | 'Quinta' | 'Sexta';
+    day: 'segunda' | 'terça' | 'quarta' | 'quinta' | 'sexta';
     hour: string, 
   }
