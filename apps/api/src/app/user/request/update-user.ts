@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
-import { RoleIsCorrect } from '../validation/role-is-correct.validator';
 import { EmailIsUnique } from '../validation/email-is-unique.validator';
-import { Classroom, Subject, Teacher, User } from '@school-nx-monorepo/api-interfaces';
+import { User } from '@school-nx-monorepo/api-interfaces';
+import { UpdateTeacherRequest } from './update-teacher';
 
 export class UpdateUserRequest implements Omit<User, 'id'> {
     @IsNotEmpty({ message: 'name cannot be empty.' })
@@ -17,22 +17,10 @@ export class UpdateUserRequest implements Omit<User, 'id'> {
     @IsOptional()
     password: string;
 
-    @IsNotEmpty({ message: 'role cannot be empty.' })
-    @RoleIsCorrect({ message: 'role is invalid' })
     @IsOptional()
-    role: UpdateTeacherRequest | 'admin';
-}
+    teacher: UpdateTeacherRequest;
 
-export class UpdateTeacherRequest implements Teacher {    
-    @IsNotEmpty({ message: 'name cannot be empty.' })
+    @IsNotEmpty({ message: 'isAdmin cannot be empty.' })
     @IsOptional()
-    classrooms: Classroom[];
-
-    @IsNotEmpty({ message: 'name cannot be empty.' })
-    @IsOptional()
-    subjects: Subject[];
-    
-    @IsNotEmpty({ message: 'name cannot be empty.' })
-    @IsOptional()
-    isCordinator: boolean;
+    isAdmin: boolean;
 }

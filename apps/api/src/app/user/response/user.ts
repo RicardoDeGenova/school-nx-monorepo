@@ -1,14 +1,16 @@
-import { Role, User } from "@school-nx-monorepo/api-interfaces";
+import { Teacher, User } from "@school-nx-monorepo/api-interfaces";
 
 export class UserResponse implements Omit<User, 'password' | 'id'> {
     name: string;
     email: string;
-    role: Role;
+    teacher: Teacher;
+    isAdmin: boolean;
 
     constructor(partial: Partial<User>) {
         if (partial === null) return;
         this.name = partial.name;
         this.email = partial.email;
-        this.role = partial.role;
+        this.teacher ??= partial.teacher;
+        this.isAdmin ??= partial.isAdmin;
     }
 }
