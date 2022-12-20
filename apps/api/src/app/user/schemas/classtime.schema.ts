@@ -7,7 +7,7 @@ export class ClassTime implements IClassTime{
     time: number;
 
     @Prop()
-    day: 'Segunda' | 'Terça' | 'Quarta' | 'Quinta' | 'Sexta';
+    day: 'segunda' | 'terça' | 'quarta' | 'quinta' | 'sexta';
 
     @Prop()
     hour: string;

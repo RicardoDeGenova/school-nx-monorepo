@@ -1,6 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { Classroom as IClassroom } from '@school-nx-monorepo/api-interfaces';
 import { ClassTime } from './classtime.schema';
+import { Classroom as IClassroom } from '@school-nx-monorepo/api-interfaces';
 import { Subject } from './subject.schema';
 
 @Schema()
