@@ -26,12 +26,11 @@ export type SubjectName =
 export type SubjectGroup =
     'Ciências da Natureza e Matemática' |
     'Ciências de Linguagens e suas Tecnologias' |
-    'Ciências Humanas e suas Tecnologias';
+    'Ciências Humanas e suas Tecnologias' |
+    'Outros';
 
 
 export interface Subject {
     name: SubjectName,
     group: SubjectGroup,
 }
-
-
