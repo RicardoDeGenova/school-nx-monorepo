@@ -2,7 +2,7 @@ import { Controller, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./guards/local-auth.guard";
 import { Request } from 'express';
-import { User } from '../user/schemas/user.schema';
+import { UserloginRequest } from "./request/user-login";
 
 @Controller('auth')
 export class AuthController {
@@ -11,6 +11,7 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     login(@Req() req: Request): { access_token: string } {
-        return this.authService.login(req.user as User);
+        const user = req.user as UserloginRequest;
+        return this.authService.login(user);
     }
 }

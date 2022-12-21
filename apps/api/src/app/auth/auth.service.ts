@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtSecret } from './constants';
-import { User } from '../user/schemas/user.schema';
 import { UserResponse } from '../user/response';
+import { UserloginRequest } from './request/user-login';
+import { isEmail } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -12,19 +13,23 @@ export class AuthService {
         private readonly jwtService: JwtService) { }
 
     async validate(email: string, password: string): Promise<UserResponse | null> {
+
         const user = await this.userService.validateWithEmail(email, password);
-        
+
         if (!user) return null;
 
         return user;
     }
 
-    login(user: User): { access_token: string } {
+    login(user: UserloginRequest): { access_token: string } {
         const payload = {
             email: user.email,
             sub: user.id,
         };
-        
+
+        if (!isEmail(user.email))
+            throw new HttpException('Email must be valid.', 401);
+
         return { access_token: this.jwtService.sign(payload), }
     }
 
