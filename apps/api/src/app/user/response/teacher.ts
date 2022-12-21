@@ -5,8 +5,8 @@ export class TeacherResponse implements Omit<Teacher, 'id'> {
     subjects: Subject[];
     isCordinator: boolean;
 
-    constructor(partial: Partial<Teacher>) {
-        if (partial == null) return;
+    constructor(partial: Partial<Teacher>) {      
+        if (partial === undefined) partial = {classrooms: [], subjects: [], isCordinator: false};  
         this.classrooms = partial.classrooms;
         this.subjects = partial.subjects;
         this.isCordinator = partial.isCordinator;
