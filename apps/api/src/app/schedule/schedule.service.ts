@@ -1,5 +1,4 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
-import { UserResponse } from '../user/response';
+import { Injectable } from '@nestjs/common';
 import { UserRespository } from '../user/user.repository';
 import { ClassroomScheduleResponse, TeacherScheduleResponse } from './response';
 
@@ -26,18 +25,21 @@ export class ScheduleService {
         const users = await this.userRepository.findAll(query);
         if (!users) return null;
 
-
         const classrooms = users.map(function (user) {
             if (!user.teacher) return;
             if (!user.teacher.classrooms) return;
 
             const filtered = user.teacher.classrooms.filter((classroom => classroom.name === name));
-
+            
             return filtered;
         });
-        const flatClassrooms = classrooms.flat();
-        console.log(classrooms.flat());
+        
+        const flatClassrooms = classrooms.flat().sort((n1,n2) => {
+            if (n1.time.time > n2.time.time) return 1;
+            if (n1.time.time < n2.time.time) return -1;
+            return 0;
+        });
 
-        return new ClassroomScheduleResponse(flatClassrooms);
+        return new ClassroomScheduleResponse(name, flatClassrooms);
     }
 }

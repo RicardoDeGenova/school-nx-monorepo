@@ -1,10 +1,11 @@
-import { Classroom, Teacher } from "@school-nx-monorepo/api-interfaces";
+import { Classroom } from "@school-nx-monorepo/api-interfaces";
 
-export class ClassroomScheduleResponse implements Pick<Teacher, 'classrooms'> {
-    classrooms: Classroom[];
+export class ClassroomScheduleResponse {
+    name: string;
+    classSchedule: Omit<Classroom[], 'name'>;
    
-    constructor(partial: Partial<Classroom[]>){
+    constructor(name: string, partial: Partial<Classroom[]>){
         if (partial == null) return;
-        this.classrooms = partial;
+        this.classSchedule = partial;
     }
 }
