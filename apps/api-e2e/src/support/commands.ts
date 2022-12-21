@@ -8,29 +8,20 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    login(email?: string, password?: string): void;
+    login(expectedStatus: number, email?: string, password?: string): void;
   }
 }
 
-Cypress.Commands.add('login', (email = "ricgnv@gmail.com", password = "123123"): void => {
+Cypress.Commands.add('login', (expectedStatus: 201, email = "ricgnv@gmail.com", password = "123123"): void => {
   cy.api({
     method: 'post',
     url: '/api/auth/login',
-    body: { email, password }
-  }).then(response => localStorage.setItem('authToken', response.body.access_token));
+    body: { email, password },
+    failOnStatusCode: false
+  }).then(response => localStorage.setItem('authToken', response.body.access_token))
+  .then(response => expect(response.status).to.equal(expectedStatus));
 });
-
-
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
