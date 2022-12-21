@@ -38,6 +38,6 @@ export class UserController {
     async updateUser(
         @Param('userId') userId: string,
         @Body() updateUserDTO: UpdateUserRequest): Promise<UserResponse> {
-        return this.userService.update(userId, updateUserDTO);
+        return await this.userService.update(userId, updateUserDTO);
     }
 }

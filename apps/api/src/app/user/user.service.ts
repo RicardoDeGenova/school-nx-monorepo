@@ -41,7 +41,7 @@ export class UserService {
 
     @UseInterceptors(ClassSerializerInterceptor)
     async findById(userId: string): Promise<UserResponse | null> {
-        const user = await this.userRepository.findOne({ id: userId });
+        const user = await this.userRepository.findOne({ _id: userId });
         return (user) ? new UserResponse(user) : null;
     }
 
@@ -59,11 +59,11 @@ export class UserService {
     }
 
     async update(userId: string, infoToUpdate: UpdateUserRequest): Promise<UserResponse> {
-        const updatedUser = await this.userRepository.findOneAndUpdate({ id: userId }, infoToUpdate);
+        const updatedUser = await this.userRepository.findOneAndUpdate({ _id: userId }, infoToUpdate);
         return new UserResponse(updatedUser);
     }
 
     async remove(userId: string): Promise<boolean> {
-        return await this.userRepository.deleteMany({ id: userId });
+        return await this.userRepository.deleteMany({ _id: userId });
     }
 }
