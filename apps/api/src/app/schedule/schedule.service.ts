@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Classroom } from '@school-nx-monorepo/api-interfaces';
 import { UserRespository } from '../user/user.repository';
 import { ClassroomScheduleResponse, TeacherScheduleResponse } from './response';
 
@@ -25,18 +26,14 @@ export class ScheduleService {
         const users = await this.userRepository.findAll(query);
         if (!users) return null;
 
-        const classrooms = users.map(function (user) {
-            if (!user.teacher) return;
-            if (!user.teacher.classrooms) return;
 
-            const filtered = user.teacher.classrooms.filter((classroom => classroom.name === name));
-            
-            return filtered;
-        });
-        
-        const flatClassrooms = classrooms.flat().sort((n1,n2) => {
-            if (n1.time.time > n2.time.time) return 1;
-            if (n1.time.time < n2.time.time) return -1;
+        const classrooms: Classroom[][] = users.map((user) =>
+            user.teacher.classrooms.filter((classroom => classroom.name === name))
+        );
+
+        const flatClassrooms: Classroom[] = classrooms.flat().sort((n1: Classroom, n2: Classroom) => {
+            if (n1.time.timeSlot > n2.time.timeSlot) return 1;
+            if (n1.time.timeSlot < n2.time.timeSlot) return -1;
             return 0;
         });
 
