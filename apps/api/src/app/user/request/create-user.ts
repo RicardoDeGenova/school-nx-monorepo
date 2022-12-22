@@ -1,5 +1,4 @@
 import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
-import { RoleIsCorrect as RoleIsCorrect } from '../validation/role-is-correct.validator';
 import { EmailIsUnique } from '../validation/email-is-unique.validator';
 import { User } from '@school-nx-monorepo/api-interfaces';
 import { CreateTeacherRequest } from './create-teacher';

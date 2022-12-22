@@ -16,7 +16,6 @@ export class ScheduleController {
   @Get('/teacher/:userId')
   @UseGuards(JwtAuthGuard)
   async getTeacherSchedule(@Param('userId') userId: string): Promise<TeacherScheduleResponse> {
-
     return await this.scheduleService.getTeacherScheduleById(userId);
   }
 

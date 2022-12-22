@@ -11,10 +11,10 @@ export class RolesGuard implements CanActivate {
     canActivate(context: ExecutionContext):
         boolean | Promise<boolean> | Observable<boolean> {
         const currentUser: User = context.switchToHttp().getRequest().user;
-    
+
         if (!currentUser) throw new UnauthorizedException();
 
-        const hasRole = currentUser.isAdmin;        
+        const hasRole = currentUser.isAdmin;
         return hasRole === true;
     }
 }

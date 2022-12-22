@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, SetMetadata, UseGuards } from '@nestjs/common';
-import { CreateUserRequest, UpdateUserRequest } from './request';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { CreateUserRequest, UpdateUserRequest, UserRequest } from './request';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard as IsAdminGuard } from '../auth/guards/roles.guard';
 import { UserResponse } from './response';
-import { UserRequest } from './request/user';
 
 @Controller('/users')
 export class UserController {
@@ -18,8 +17,8 @@ export class UserController {
 
     @Get(':userId')
     @UseGuards(JwtAuthGuard)
-    async getUser(@Param('userId') userId: Pick<UserRequest, 'id'>): Promise<UserResponse> {
-        return await this.userService.findById(userId.id);
+    async getUser(@Param('userId') userId: UserRequest): Promise<UserResponse> {
+        return await this.userService.findById(userId._id);
     }
 
     @Post()

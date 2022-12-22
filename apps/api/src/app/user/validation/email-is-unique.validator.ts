@@ -5,9 +5,9 @@ import { UserService } from "../user.service";
 
 @Injectable()
 @ValidatorConstraint({ async: true })
-export class EmailIsUniqueValidator implements ValidatorConstraintInterface{
-    constructor(private userService: UserService) {}
-    
+export class EmailIsUniqueValidator implements ValidatorConstraintInterface {
+    constructor(private userService: UserService) { }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async validate(email: string, validationArguments?: ValidationArguments): Promise<boolean> {
         const userWithEmail = await this.userService.findByEmail(email);

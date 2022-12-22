@@ -6,7 +6,7 @@ export class UserResponse implements Omit<User, 'password' | 'id'> {
     email: string;
     teacher: TeacherResponse;
     isAdmin: boolean;
-    
+
     constructor(partial: Partial<User>) {
         this.name = partial.name;
         this.email = partial.email;

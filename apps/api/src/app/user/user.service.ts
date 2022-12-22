@@ -5,16 +5,18 @@ import { v4 as uuid } from 'uuid';
 import { hashPassword, validatePassword } from "../utils/bcrypt";
 import { UserResponse as UserResponse } from "./response";
 import { Teacher } from "@school-nx-monorepo/api-interfaces";
+import { FilterQuery } from "mongoose";
+import { UserDocument } from "./schemas";
 
 @Injectable()
 export class UserService {
     constructor(private readonly userRepository: UserRespository) { }
 
-    async create(name: string, email: string, password: string, 
+    async create(name: string, email: string, password: string,
         teacher: Teacher, isAdmin: boolean): Promise<UserResponse> {
         password = hashPassword(password);
         const user = await this.userRepository.create({
-            id: new uuid(),
+            _id: new uuid(),
             name,
             email,
             password,
@@ -28,12 +30,11 @@ export class UserService {
     @UseInterceptors(ClassSerializerInterceptor)
     async findAll(): Promise<UserResponse[]> {
         const users = await this.userRepository.findAll({}) as UserResponse[];
-
         return users.map((user) => new UserResponse(user));
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
-    async findAllByFilter(entityFilterQuery: unknown): Promise<UserResponse[]> {
+    async findAllByFilter(entityFilterQuery: FilterQuery<UserDocument>): Promise<UserResponse[]> {
         const users = await this.userRepository.findAll(entityFilterQuery) as UserResponse[];
 
         return users.map((user) => new UserResponse(user));
@@ -50,7 +51,7 @@ export class UserService {
         return (user) ? new UserResponse(user) : null;
     }
 
-    async validateWithEmail(email: string, password: string): Promise<UserResponse | null> {  
+    async validateWithEmail(email: string, password: string): Promise<UserResponse | null> {
         const user = await this.userRepository.findOne({ email });
         if (!user) return null;
 
