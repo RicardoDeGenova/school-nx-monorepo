@@ -3,7 +3,7 @@ import { EmailIsUnique } from '../validation/email-is-unique.validator';
 import { User } from '@school-nx-monorepo/api-interfaces';
 import { UpdateTeacherRequest } from './update-teacher';
 
-export class UpdateUserRequest implements Omit<User, 'id'> {
+export class UpdateUserRequest implements Omit<User, '_id'> {
     @IsNotEmpty({ message: 'name cannot be empty.' })
     @IsOptional()
     name: string;
