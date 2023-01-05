@@ -1,7 +1,6 @@
 import { ClassSerializerInterceptor, Injectable, UseInterceptors } from "@nestjs/common";
 import { UpdateUserRequest } from "./request/update-user";
 import { UserRespository } from "./user.repository";
-import { v4 as uuid } from 'uuid';
 import { hashPassword, validatePassword } from "../utils/bcrypt";
 import { UserResponse as UserResponse } from "./response";
 import { Teacher } from "@school-nx-monorepo/api-interfaces";
@@ -15,8 +14,8 @@ export class UserService {
     async create(name: string, email: string, password: string,
         teacher: Teacher, isAdmin: boolean): Promise<UserResponse> {
         password = hashPassword(password);
+
         const user = await this.userRepository.create({
-            _id: new uuid(),
             name,
             email,
             password,
