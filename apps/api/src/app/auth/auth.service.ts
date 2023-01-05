@@ -14,9 +14,8 @@ export class AuthService {
 
     async validate(email: string, password: string): Promise<UserResponse | null> {
         const user: UserResponse = await this.userService.validateWithEmail(email, password);
-
         if (!user){
-            throw new Error('Unable to get user from email.');
+            throw new HttpException('User not found.', 401);
         }
         return user;
     }
