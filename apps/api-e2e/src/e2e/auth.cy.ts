@@ -1,11 +1,13 @@
 describe('auth.controller.ts', () => {
     describe('api/login', () => {
         it('does not successfully logs in', () => {
-            cy.login(401, "123123", "123123");
+            cy.loginByApi("123123", "123123")
+            .then(response => {expect(response.status).to.eq(401)});
         });
 
         it('successfully logs in', () => {
-            cy.login(201);
+            cy.loginByApi()
+            .then(response => {expect(response.status).to.eq(201)});
         });
     });
 });

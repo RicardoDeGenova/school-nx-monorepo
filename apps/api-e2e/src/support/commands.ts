@@ -1,27 +1,43 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(expectedStatus: number, email?: string, password?: string): void;
-  }
-}
+import { User } from '@school-nx-monorepo/api-interfaces';
 
-Cypress.Commands.add('login', (expectedStatus: 201, email = "ricgnv@gmail.com", password = "123123"): void => {
-  cy.api({
-    method: 'post',
+
+Cypress.Commands.add('loginByApi', (email = "ricgnv@gmail.com", password = "123123") => {
+  return cy.api({
+    method: 'POST',
     url: '/api/auth/login',
     body: { email, password },
     failOnStatusCode: false
-  }).then(response => localStorage.setItem('authToken', response.body.access_token))
-  .then(response => expect(response.status).to.equal(expectedStatus));
+  });
+});
+
+Cypress.Commands.add('getOneOrAllUsers', (token = '', userId = '') => {
+  if (userId !== '') userId = '/' + userId;
+
+  return cy.api({
+    method: 'GET',
+    url: '/api/users' + userId,
+    headers: { Authorization: 'Bearer ' + token },
+    failOnStatusCode: false
+  });
+});
+
+Cypress.Commands.add('createUser', (user: User, token?: string) => {
+  return cy.api({
+    method: 'POST',
+    url: '/api/users',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { user },
+    failOnStatusCode: false
+  });
+});
+
+Cypress.Commands.add('patchUser', (userId: string, user: User, token?: string) => {
+  return cy.api({
+    method: 'PATCH',
+    url: '/api/users/' + userId,
+    headers: { Authorization: 'Bearer ' + token },
+    body: { user },
+    failOnStatusCode: false
+  });
 });
