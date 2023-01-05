@@ -23,13 +23,13 @@ export class UserController {
 
     @Post()
     @UseGuards(JwtAuthGuard, IsAdminGuard)
-    async createUser(@Body() createUserDTO: CreateUserRequest): Promise<UserResponse> {
+    async createUser(@Body() createUserRequest: CreateUserRequest): Promise<UserResponse> {
         return await this.userService.create(
-            createUserDTO.name,
-            createUserDTO.email,
-            createUserDTO.password,
-            createUserDTO.teacher,
-            createUserDTO.isAdmin);
+            createUserRequest.name,
+            createUserRequest.email,
+            createUserRequest.password,
+            createUserRequest.teacher,
+            createUserRequest.isAdmin);
     }
 
     @Patch(':userId')
