@@ -1,0 +1,11 @@
+<div class="m-3 h-screen border rounded-lg border-stone-900 ">
+
+    <ag-grid-angular
+    class="ag-theme-alpine w-auto h-full p-0.5"
+    [rowData]="rowData"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [animateRows]="true"
+    (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>
