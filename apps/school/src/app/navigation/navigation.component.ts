@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent {
-    userMenuClicked = false;
+    isMenuShowing = false;
 
     onUserMenuClicked(): void{
-        this.userMenuClicked = !this.userMenuClicked;
+        this.isMenuShowing = !this.isMenuShowing;
     }
 }

@@ -6,9 +6,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./menu-button.component.scss'],
 })
 export class MenuButtonComponent  {
-    @Output() buttonClicked = new EventEmitter();
+    @Output() isMenuButtonShowing = new EventEmitter<boolean>();
 
-    onUserMenuClicked():void {
-        this.buttonClicked.emit();
+    internalIsMenuShowing = false;
+
+    onUserMenuClicked(): void{
+        this.internalIsMenuShowing = !this.internalIsMenuShowing;
+        const input = document.getElementById('user-menu-button');
+
+        if (!this.internalIsMenuShowing) input?.blur();
+
+        this.isMenuButtonShowing.emit(this.internalIsMenuShowing);
     }
 }

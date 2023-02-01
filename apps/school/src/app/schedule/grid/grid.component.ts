@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { GridRow } from './grid';
+import { ScheduleRow } from './schedule-row';
 import { TimeslotPipe } from './timeslot.pipe';
 
 @Component({
@@ -10,36 +10,38 @@ import { TimeslotPipe } from './timeslot.pipe';
 })
 export class GridComponent {
     constructor(private readonly timeSlotPipe: TimeslotPipe){}    
-    private gridApi!: GridApi<GridRow>;
+    private gridApi!: GridApi<ScheduleRow>;
     private gridColumnApi!: ColumnApi;
 
-  @Input() dayName = 'Monday';
-
-  rowData: GridRow[] = [
-    { day: 'Monday', timeSlot: 1, classroom: '6A', teacher: 'Teacher A' },
-    { day: 'Monday', timeSlot: 2, classroom: '6A', teacher: 'Teacher A'  },
-    { day: 'Monday', timeSlot: 3, classroom: '6B', teacher: 'Teacher A'  },
-    { day: 'Monday', timeSlot: 4, classroom: '6B', teacher: 'Teacher A'  },
-    { day: 'Monday', timeSlot: 5, classroom: '6B', teacher: 'Teacher B'  },
-    { day: 'Monday', timeSlot: 6, classroom: '6B', teacher: 'Teacher B'  },
-    { day: 'Monday', timeSlot: 7, classroom: '6B', teacher: 'Teacher B'  },
-    { day: 'Monday', timeSlot: 8, classroom: '6B', teacher: 'Teacher A'  },
-    { day: 'Monday', timeSlot: 9, classroom: '6B', teacher: 'Teacher A'  },
-  ];
-
-  colDefs: ColDef<GridRow>[] = [
-    { field: 'day' },
-    { field: 'timeSlot', valueFormatter: v => this.timeSlotPipe.transform(v.value) },
-    { field: 'classroom' },
-    { field: 'teacher' },
-  ];
+    rowData: ScheduleRow[] = [{     
+        teacher: 'Teacher A', classroom: { 
+            name: '6A', type: 'tradicional', time: { 
+                timeSlot: 1, day: 'segunda' 
+            }, 
+            subject: { 
+                name: 'Arte', group: 'Outros'
+            } 
+        } 
+    }];
 
   defaultColDef: ColDef = {
     sortable: true,
-    filter: true
+    filter: true,
   };
 
-  onGridReady(params: GridReadyEvent<GridRow>) {
+  onGridReady(params: GridReadyEvent<ScheduleRow>) {
     params.api.sizeColumnsToFit();
+    const colDefs = params.api.getColumnDefs();
+    console.log(colDefs);
+    if (colDefs === undefined) return;
+    console.log(colDefs);
+    const keys = Object.keys(this.rowData[0])
+    keys.forEach(key => colDefs?.push({field : key}));
+    console.log(keys);
+    params.api.setColumnDefs(colDefs);
+        
+        // add the data to the grid
+        
+    params.api.setRowData(this.rowData);
   }
 }
