@@ -5,7 +5,7 @@ export class TeacherScheduleResponse implements Omit<Teacher, 'id' | 'isCordinat
     classrooms: Classroom[] = [];
     subjects: Subject[] = [];
 
-    constructor(name: string, partial: Partial<Teacher>) {
+    constructor(name: string, partial: Teacher) {
         if (partial === undefined) return;
         this.teacherName = name;
         this.classrooms = partial.classrooms;

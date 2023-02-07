@@ -4,3 +4,4 @@ export * from './lib/teacher';
 export * from './lib/admin';
 export * from './lib/user';
 export * from './lib/classtime';
+export * from './lib/schedule';

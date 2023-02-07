@@ -1,6 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TeacherScheduleResponse, ClassroomScheduleResponse } from './response';
+import { ScheduleResponse } from './response/schedule';
 import { ScheduleService } from './schedule.service';
 
 @Controller('schedule')
@@ -9,11 +10,19 @@ export class ScheduleController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getAll(): Promise<TeacherScheduleResponse[]> {
-    return await this.scheduleService.getSchedule();
+  async getAll(): Promise<ScheduleResponse[]> {
+    const schedule = await this.scheduleService.getAll();
+    return schedule;
   }
 
-  @Get('/teacher/:userId')
+  @Get('/teachers')
+  @UseGuards(JwtAuthGuard)
+  async getAllTeacherSchedules(): Promise<TeacherScheduleResponse[]> {
+    const schedule = await this.scheduleService.getTeachersSchedule();
+    return schedule;
+  }  
+
+  @Get('/teachers/:userId')
   @UseGuards(JwtAuthGuard)
   async getTeacherSchedule(@Param('userId') userId: string): Promise<TeacherScheduleResponse> {
     return await this.scheduleService.getTeacherScheduleById(userId);
@@ -21,7 +30,7 @@ export class ScheduleController {
 
   @Get('/classroomName/:classroomName')
   @UseGuards(JwtAuthGuard)
-  async getClassroomSchedule(@Param('classroomName') request: string): Promise<ClassroomScheduleResponse> {
+  async getClassroomSchedule(@Param('classroomName') request: string): Promise<ClassroomScheduleResponse[]> {
     return await this.scheduleService.getClassroomScheduleByName(request);
   }
 }

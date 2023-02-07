@@ -18,7 +18,7 @@ export class UpdateUserRequest implements Omit<User, '_id'> {
     password: string;
 
     @IsOptional()
-    teacher: UpdateTeacherRequest;
+    teacher: UpdateTeacherRequest; 
 
     @IsNotEmpty({ message: 'isAdmin cannot be empty.' })
     @IsOptional()

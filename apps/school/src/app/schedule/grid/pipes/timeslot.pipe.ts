@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 type TimeSlotValue =
-  | '7:00 - 7:45'
+    '7:00 - 7:45'
   | '7:45 - 8:30'
   | '9:00 - 9:45'
   | '9:45 - 10:30'

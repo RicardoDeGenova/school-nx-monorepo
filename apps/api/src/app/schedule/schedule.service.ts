@@ -3,12 +3,33 @@ import { Classroom } from '@school-nx-monorepo/api-interfaces';
 import { UserResponse } from '../user/response';
 import { UserRespository } from '../user/user.repository';
 import { ClassroomScheduleResponse, TeacherScheduleResponse } from './response';
+import { ScheduleResponse } from './response/schedule';
 
 @Injectable()
-export class ScheduleService {
+export class ScheduleService {    
     constructor(private readonly userRepository: UserRespository) { }
+    
+    async getAll(): Promise<ScheduleResponse[]>  {
+        const query = { teacher: { $not: { $eq: null } } };
 
-    async getSchedule(): Promise<TeacherScheduleResponse[]> {
+        const users: UserResponse[] = await this.userRepository.findAll(query) as UserResponse[];
+        if (!users) return null;
+
+        const schedule: ScheduleResponse[][] = users.map(
+            (user) => {
+                const classrooms = user.teacher.classrooms;
+                return classrooms.map(room => new ScheduleResponse(
+                    {
+                        teacherName: user.name, classroomName: room.name, classroomType: room.type,
+                        timeSlot: room.time.timeSlot, day: room.time.day, subject: room.subject.name
+                }));
+            }
+        );
+
+        return schedule.flat();
+    }
+
+    async getTeachersSchedule(): Promise<TeacherScheduleResponse[]> {
         const allUsers: UserResponse[] = await this.userRepository.findAll({}) as UserResponse[];
         const schedule: TeacherScheduleResponse[] = allUsers.map(
             (user) => new TeacherScheduleResponse(user.name, user.teacher)
@@ -23,7 +44,7 @@ export class ScheduleService {
         return new TeacherScheduleResponse(user.name, user.teacher);
     }
 
-    async getClassroomScheduleByName(name: string): Promise<ClassroomScheduleResponse | null> {
+    async getClassroomScheduleByName(name: string): Promise<ClassroomScheduleResponse[] | null> {
         const query = { teacher: { $not: { $eq: null } } };
 
         const users: UserResponse[] = await this.userRepository.findAll(query) as UserResponse[];
@@ -39,6 +60,6 @@ export class ScheduleService {
             return 0;
         });
 
-        return new ClassroomScheduleResponse(name, flatClassrooms);
+        return flatClassrooms as ClassroomScheduleResponse[];
     }
 }

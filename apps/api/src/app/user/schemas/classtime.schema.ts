@@ -7,5 +7,5 @@ export class ClassTime implements IClassTime {
     timeSlot: number;
 
     @Prop()
-    day: 'segunda' | 'terça' | 'quarta' | 'quinta' | 'sexta';
+    day: 'monday' | 'tuesday' | 'wednesday' | 'thrusday' | 'friday';
 }

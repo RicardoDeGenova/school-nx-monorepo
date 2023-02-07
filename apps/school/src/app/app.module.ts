@@ -4,13 +4,14 @@ import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LogoComponent } from './navigation/logo/logo.component';
 import { NavButtonComponent } from './navigation/nav-button/nav-button.component';
 import { BellSvgComponent } from './navigation/bell-button/bell-svg/bell-svg.component';
 import { BellButtonComponent } from './navigation/bell-button/bell-button.component';
 import { MenuButtonComponent } from './navigation/menu-button/menu-button.component';
+import { TokenInterceptor } from './token.interceptor';
 
 const routes: Route[] = [
   {
@@ -37,7 +38,13 @@ const routes: Route[] = [
     MenuButtonComponent,
   ],
   imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
-  providers: [],
+  providers: [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+      }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
