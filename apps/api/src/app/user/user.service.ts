@@ -59,6 +59,9 @@ export class UserService {
     }
 
     async update(userId: string, infoToUpdate: UpdateUserRequest): Promise<UserResponse> {
+        if (infoToUpdate.password !== undefined) 
+            infoToUpdate.password = hashPassword(infoToUpdate.password);
+
         const updatedUser = await this.userRepository.findOneAndUpdate({ _id: userId }, infoToUpdate);
         return new UserResponse(updatedUser);
     }

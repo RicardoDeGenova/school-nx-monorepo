@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJpY2dudkBnbWFpbC5jb20iLCJzdWIiOiI2M2M5NDJkMzJkY2U1NTI3ZTBhYTdiYTkiLCJpYXQiOjE2NzU1MTUxMTksImV4cCI6MTY3NjExOTkxOX0.hICzYfvHvYq9oDHyZukMu-bSkeP0DQ_DEnfkvxWfGF8`
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJpY2dudkBnbWFpbC5jb20iLCJzdWIiOiI2M2M5NDJkMzJkY2U1NTI3ZTBhYTdiYTkiLCJpYXQiOjE2NzcxNTQ1NzUsImV4cCI6MTY3Nzc1OTM3NX0.vAgijR-1J0A1Op770-g6DNp9myU2lpyMiurbCcpi8sM`
       }
     });
 

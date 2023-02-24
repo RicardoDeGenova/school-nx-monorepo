@@ -1,0 +1,24 @@
+<section class="flex justify-center items-center bg-gray-50 h-screen">
+    <div class=" text-center bg-gray-100 p-4 rounded w-80 sm:w-1/2 lg:w-1/3 border-2 border-indigo-500 ">
+        <h4 class="pb-5 text-2xl">Login</h4>
+        <form class="flex flex-col" (ngSubmit)="login()">
+            <input class="mt-2 p-0.5 md:mx-16 mx-8 rounded text-center focus:outline-none focus:ring-2 focus:ring-indigo-400" 
+            type="email" 
+            placeholder="Email" 
+            [(ngModel)]="email" 
+            name="email"
+            required/>
+
+            <input class="mt-2 p-0.5 md:mx-16 mx-8 rounded text-center focus:outline-none focus:ring-2 focus:ring-indigo-400" 
+            type="password" 
+            placeholder="Password"
+            [(ngModel)]="password" 
+            name="password"
+            required/>
+
+            <input class="bg-indigo-500 text-white rounded-full md:mx-24 mx-20 py-1 mt-4 text-sm3 focus:outline-none hover:bg-indigo-700" 
+            type="submit"
+            value="Login"/>
+        </form>
+    </div>    
+</section>

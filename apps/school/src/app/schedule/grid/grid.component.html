@@ -2,8 +2,9 @@
 
     <ag-grid-angular
     class="ag-theme-alpine w-auto h-full p-0.5"
+    [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"
-    [animateRows]="true"
-    (gridReady)="onGridReady($event)">
+    [rowData]="rowData$|async"
+    [animateRows]="true">
     </ag-grid-angular>
 </div>

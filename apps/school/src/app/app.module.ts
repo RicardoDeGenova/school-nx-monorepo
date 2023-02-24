@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
@@ -12,19 +11,7 @@ import { BellSvgComponent } from './navigation/bell-button/bell-svg/bell-svg.com
 import { BellButtonComponent } from './navigation/bell-button/bell-button.component';
 import { MenuButtonComponent } from './navigation/menu-button/menu-button.component';
 import { TokenInterceptor } from './token.interceptor';
-
-const routes: Route[] = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'schedule',
-  },
-  {
-    path: 'schedule',
-    loadChildren: () =>
-      import('./schedule/schedule.module').then((m) => m.ScheduleModule),
-  },
-];
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +24,7 @@ const routes: Route[] = [
     BellButtonComponent,
     MenuButtonComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [
     {
         provide: HTTP_INTERCEPTORS,

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { ScheduleResponse } from '../response/schedule';
+import { ColDef } from 'ag-grid-community';
+import { Observable } from 'rxjs';
+import { ScheduleResponse } from '../schedule';
+import { ScheduleService } from '../schedule.service';
+import { TimeslotPipe } from './pipes/timeslot.pipe';
 
 @Component({
   selector: 'school-nx-monorepo-grid',
@@ -8,25 +11,24 @@ import { ScheduleResponse } from '../response/schedule';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent {
-  @Input() rowData$: ScheduleResponse[] = [];
-  private gridApi!: GridApi<ScheduleResponse>;
+  constructor(private readonly scheduleService: ScheduleService,
+    private timeSlotPipe: TimeslotPipe) {}
+    @Input() isAdmin = false;
+
+  rowData$: Observable<ScheduleResponse[]> = this.scheduleService.getSchedule();
 
   defaultColDef: ColDef = {
     sortable: true,
     filter: true,
+    editable: this.isAdmin
   };
 
-  //valueFormatter: v => this.timeSlotPipe.transform(v.value) },
-  onGridReady(params: GridReadyEvent<ScheduleResponse>) {
-      const colDefs = params.api.getColumnDefs();
-      if (colDefs === undefined) return;
-      const keys = Object.keys(this.rowData$[0]);
-      keys.forEach((key) => colDefs?.push({ field: key }));
-      params.api.setColumnDefs(colDefs);
-      //params.api.auto();
-    
-    // add the data to the grid
-
-    params.api.setRowData(this.rowData$);
-  }
+  colDefs: ColDef<ScheduleResponse>[] =[
+    {field: 'teacherName'},
+    {field: 'subject'},
+    {field: 'day'},
+    {field: 'timeSlot', valueFormatter: v => this.timeSlotPipe.transform(v.value)},
+    {field: 'classroomName'},
+    {field: 'classroomType'},
+  ]
 }
