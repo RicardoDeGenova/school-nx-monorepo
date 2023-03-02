@@ -41,4 +41,4 @@ Thumbs.db
 
 .angular
 
-settings
+apps\api\settings.ts

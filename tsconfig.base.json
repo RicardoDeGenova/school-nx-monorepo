@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@school-nx-monorepo/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@school-nx-monorepo/settings": ["settings/index.ts"]
+      "@school-nx-monorepo/api-interfaces": ["libs/api-interfaces/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
