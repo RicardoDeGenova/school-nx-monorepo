@@ -15,8 +15,10 @@
         <school-nx-monorepo-bell-button class="ml-auto"></school-nx-monorepo-bell-button>
 
         <!-- Profile dropdown -->
-        <div class="relative ml-3">
-          <school-nx-monorepo-menu-button (isMenuButtonShowing)="onUserMenuClicked()"></school-nx-monorepo-menu-button>
+        <div class="relative ml-3"
+        (click)="isMenuShowing = true"
+        (mouseleave)="onMouseLeaveButton()">
+          <school-nx-monorepo-menu-button [isMenuShowing]="isMenuShowing || isMouseOverButtons"></school-nx-monorepo-menu-button>
 
           <!--
               Dropdown menu, show/hide based on menu state.
@@ -29,12 +31,14 @@
                 To: "transform opacity-0 scale-95"
             -->
           <div
-            *ngIf="isMenuShowing"
+            *ngIf="isMenuShowing || isMouseOverButtons"
             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden origin-top duration-300 scale-y-1  transition-all focus:outline-none"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="user-menu-button"
             tabindex="-1"
+            (mouseenter)="isMouseOverButtons =  true" 
+            (mouseleave)="isMouseOverButtons = false"
           >
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a
@@ -74,8 +78,8 @@
           class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           aria-controls="mobile-menu"
           aria-expanded="false"
-          (click)="onUserMenuClicked()"
-        >
+          >
+          <!-- (click)="onUserMenuClicked()" -->
           <span class="sr-only">Open main menu</span>
           <!--
               Heroicon name: outline/bars-3

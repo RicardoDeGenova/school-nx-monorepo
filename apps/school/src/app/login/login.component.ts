@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'school-nx-monorepo-login',
@@ -8,12 +10,19 @@ export class LoginComponent  {
    email  = '';
    password = '';
   
-    constructor() {
-        this.login();
-    }
+    constructor(private authService: LoginService, private router: Router) {}
 
     login(){
-        console.log(this.email);
-        console.log(this.password);
+        this.authService.authLogin(this.email, this.password).subscribe({
+            next: (n) => {
+                localStorage.setItem('token', n.access_token);
+            },
+            error: (e) => {
+                console.error(e);
+                alert('Email or password is incorrect.');
+            },
+            complete: () => this.router.navigate(['schedule'])
+        });
+        
     }
 }

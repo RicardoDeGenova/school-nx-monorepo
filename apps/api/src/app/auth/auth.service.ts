@@ -5,6 +5,7 @@ import { jwtSecret } from './constants';
 import { UserResponse } from '../user/response';
 import { UserloginRequest } from './request/user-login';
 import { isEmail } from 'class-validator';
+import { Token } from '@school-nx-monorepo/api-interfaces';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
         return user;
     }
 
-    login(user: UserloginRequest): { access_token: string } {
+    login(user: UserloginRequest): Token {
         const payload = {
             email: user.email,
             sub: user._id,

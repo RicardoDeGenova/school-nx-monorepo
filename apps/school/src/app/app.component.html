@@ -1,5 +1,5 @@
 <div class="min-h-screen">
-  <school-nx-monorepo-navigation></school-nx-monorepo-navigation>
+  <school-nx-monorepo-navigation *ngIf="isLoginRoute()"></school-nx-monorepo-navigation>
 
     <router-outlet class="h-screen"></router-outlet>
     <!-- <header>

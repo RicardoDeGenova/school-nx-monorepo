@@ -6,9 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent {
-    isMenuShowing = false;
+  isMenuShowing = false;
+  isMouseOverButtons = false;
 
-    onUserMenuClicked(): void{
-        this.isMenuShowing = !this.isMenuShowing;
-    }
+  async onMouseLeaveButton(): Promise<void> {
+    await this.delay(300);
+
+    this.isMenuShowing = false;
+  }
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 }

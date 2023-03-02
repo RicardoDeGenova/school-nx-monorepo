@@ -1,11 +1,11 @@
 <div>
   <button
     type="button"
-    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 hover:ring-2 hover:ring-indigo-200 hover:ring-offset-2"
-    id="user-menu-button"
+    class="flex max-w-xs items-center rounded-full bg-white text-sm transition ease-out duration-200 hover:scale-110"
+    [ngClass]="{'ring-2 ring-offset-2 ring-indigo-500 hover:outline-none scale-110': isMenuShowing,
+    'focus:outline-none hover:ring-2 hover:ring-indigo-200 hover:ring-offset-2': !isMenuShowing}"
     aria-expanded="false"
     aria-haspopup="true"
-    (click)="onUserMenuClicked()"
   >
     <span class="sr-only">Open user menu</span>
     <img

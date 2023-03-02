@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'school-nx-monorepo-menu-button',
@@ -6,16 +6,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./menu-button.component.scss'],
 })
 export class MenuButtonComponent  {
-    @Output() isMenuButtonShowing = new EventEmitter<boolean>();
-
-    internalIsMenuShowing = false;
-
-    onUserMenuClicked(): void{
-        this.internalIsMenuShowing = !this.internalIsMenuShowing;
-        const input = document.getElementById('user-menu-button');
-
-        if (!this.internalIsMenuShowing) input?.blur();
-
-        this.isMenuButtonShowing.emit(this.internalIsMenuShowing);
-    }
+    @Input() isMenuShowing = false;
+    testingColor = this.isMenuShowing ? 'ring-2 ring-offset-2 ring-indigo-500' : '';
 }
