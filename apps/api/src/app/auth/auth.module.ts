@@ -8,6 +8,7 @@ import { JwtStrategy as JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 
+
 @Module({
     imports: [
         UserModule,
